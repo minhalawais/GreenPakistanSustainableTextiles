@@ -69,12 +69,12 @@ const config: Config = {
       },
       keyframes: {
         "accordion-down": {
-          from: { height: 0 },
+          from: { height: "0" }, // Fixed: Changed `0` to `"0"`
           to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: 0 },
+          to: { height: "0" }, // Fixed: Changed `0` to `"0"`
         },
       },
       animation: {
@@ -90,4 +90,3 @@ const config: Config = {
 }
 
 export default config
-
