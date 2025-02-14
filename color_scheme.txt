@@ -1,0 +1,4 @@
+Backgrounds: #D8D0BD (Primary), #F8F9FA (Sections), #E4E7EB (Subtle Dividers)
+Text: #1D3F8A (Headings), #14274E (Body), #4A5568 (Muted/Secondary Text)
+Buttons: #30B9AD (Primary CTA), #C5A46D (Accent/Alternative)
+Borders & Shadows: #E4E7EB (Soft), #4A5568 (Strong)
