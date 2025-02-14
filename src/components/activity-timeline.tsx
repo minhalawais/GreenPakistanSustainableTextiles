@@ -32,7 +32,8 @@ export function ActivityTimeline() {
 
   useEffect(() => {
     if (timelineRef.current) {
-      const secondItemPosition = timelineRef.current.children[1].offsetTop
+      const secondItem = timelineRef.current.children[1] as HTMLElement // Explicitly cast to HTMLElement
+      const secondItemPosition = secondItem.offsetTop
       timelineRef.current.scrollTop = secondItemPosition - 100 // Adjust 100 as needed for positioning
     }
   }, [])
@@ -96,4 +97,3 @@ export function ActivityTimeline() {
     </motion.div>
   )
 }
-
