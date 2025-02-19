@@ -109,18 +109,18 @@ export function HeroSection() {
               quality={100}
             />
           </h1>
-
           <p className="text-xl md:text-2xl text-emerald-100 font-medium">
-            Pakistan's Gateway to 300+ German Brands & Companies
+            Pakistan&apos;s Gateway to 300+ German Brands &amp; Companies
           </p>
 
           <p className="text-base md:text-lg text-gray-100 leading-relaxed max-w-2xl mx-auto">
             By aligning with global sustainability and compliance standards (LkSG
-            & EU Green Deal), this project is not just about meeting
-            regulations—it's about unlocking new export markets, increasing
+            &amp; EU Green Deal), this project is not just about meeting
+            regulations—it&apos;s about unlocking new export markets, increasing
             trade potential, and building long-term partnerships with European
             buyers.
           </p>
+
         </div>
 
         {/* Enhanced Feature Buttons */}

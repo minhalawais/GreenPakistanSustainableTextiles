@@ -36,7 +36,7 @@ const outcomes = [
   },
   {
     metric: "Global",
-    text: "market access for Pakistan's textile sector",
+    text: "market access for Pakistan textile sector",
     icon: TrendingUp,
     description: "Expanding international trade opportunities through compliance and sustainability.",
   },
@@ -82,7 +82,7 @@ export function ProjectOutcomes() {
               </h2>
             </div>
             <p className="text-lg text-[#14274E] leading-relaxed mb-8 border-l-2 border-[#E4E7EB] pl-4 py-2">
-              We're accelerating Pakistan's transition to sustainable business practices. Together, we're creating
+              We&apos;re accelerating Pakistan&apos;s transition to sustainable business practices. Together, we&apos;re creating
               pathways for global market access and environmental compliance.
             </p>
             <button className="bg-[#125643] text-white px-6 py-3 rounded-lg font-medium hover:bg-[#125643] transition-all duration-300 shadow-md hover:shadow-lg hover:translate-y-[-1px]">

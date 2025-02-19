@@ -204,9 +204,10 @@ export function CapacityBuildingPanel() {
 
                       {/* Compact Profile Details Section */}
                       <div className="p-4 flex-grow relative">
-                        <p className="text-xs text-[#14274E] mb-4 leading-relaxed italic border-l-2 border-[#E4E7EB] pl-2 py-1">
-                          "{advisor.profile}"
-                        </p>
+                      <p className="text-xs text-[#14274E] mb-4 leading-relaxed italic border-l-2 border-[#E4E7EB] pl-2 py-1">
+                        &quot;{advisor.profile}&quot;
+                      </p>
+
                         <div className="space-y-2">
                           {advisor.achievements.map((achievement, i) => (
                             <div
