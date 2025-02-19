@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { User, Award, BookOpen, Globe, Rocket, Linkedin } from "lucide-react"
@@ -60,22 +60,21 @@ const advisoryPanel: Advisor[] = [
 ]
 
 export function CapacityBuildingPanel() {
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [visibleAdvisors, setVisibleAdvisors] = useState<Advisor[]>([])
 
-  useEffect(() => {
-    updateVisibleAdvisors()
-  }, [currentIndex])
-
-  const updateVisibleAdvisors = () => {
+  const updateVisibleAdvisors = useCallback(() => {
     const newVisibleAdvisors = []
     for (let i = 0; i < 3; i++) {
       const index = (currentIndex + i) % advisoryPanel.length
       newVisibleAdvisors.push(advisoryPanel[index])
     }
     setVisibleAdvisors(newVisibleAdvisors)
-  }
+  }, [currentIndex])
+
+  useEffect(() => {
+    updateVisibleAdvisors()
+  }, [updateVisibleAdvisors])
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % advisoryPanel.length)
@@ -165,8 +164,6 @@ export function CapacityBuildingPanel() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.2, duration: 0.6 }}
                   className="relative group h-full"
-                  onMouseEnter={() => setHoveredItem(advisor.name)}
-                  onMouseLeave={() => setHoveredItem(null)}
                 >
                   <Card className="h-full overflow-hidden bg-white border border-[#E4E7EB] hover:border-[#C5A46D]/30 rounded-xl shadow-sm hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 relative flex flex-col">
                     {/* Enhanced Hover Effects */}
@@ -204,9 +201,9 @@ export function CapacityBuildingPanel() {
 
                       {/* Compact Profile Details Section */}
                       <div className="p-4 flex-grow relative">
-                      <p className="text-xs text-[#14274E] mb-4 leading-relaxed italic border-l-2 border-[#E4E7EB] pl-2 py-1">
-                        &quot;{advisor.profile}&quot;
-                      </p>
+                        <p className="text-xs text-[#14274E] mb-4 leading-relaxed italic border-l-2 border-[#E4E7EB] pl-2 py-1">
+                          &quot;{advisor.profile}&quot;
+                        </p>
 
                         <div className="space-y-2">
                           {advisor.achievements.map((achievement, i) => (
