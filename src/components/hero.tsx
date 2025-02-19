@@ -110,7 +110,7 @@ export function HeroSection() {
             />
           </h1>
           <p className="text-xl md:text-2xl text-emerald-100 font-medium">
-            Pakistan&apos;s Gateway to 300+ German Brands &amp; Companies
+            Preparing Associations for EU Green Deal EUCSDDD LKSG-German Due Diligence Act
           </p>
 
           <p className="text-base md:text-lg text-gray-100 leading-relaxed max-w-2xl mx-auto">
