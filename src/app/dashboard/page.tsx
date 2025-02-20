@@ -17,7 +17,7 @@ import {
   Area,
 } from "recharts";
 import { Calendar, Download } from "lucide-react";
-import { Header } from "@/components/Header";
+import { Header } from "@/components/header";
 import { StatsSlider } from "@/components/StatsSlider";
 import Image from "next/image";
 
