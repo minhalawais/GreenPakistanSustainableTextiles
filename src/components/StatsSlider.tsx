@@ -1,8 +1,8 @@
-import type React from "react"
-import { Swiper, SwiperSlide } from "swiper/react"
-import { Autoplay, Pagination } from "swiper"
-import "swiper/css"
-import "swiper/css/pagination"
+import type React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination } from "swiper/modules"; // Updated import path
+import "swiper/css";
+import "swiper/css/pagination";
 
 const stats = [
   { label: "Association Name", value: "Global Importers Association" },
@@ -13,7 +13,7 @@ const stats = [
   { label: "Major Export Destinations", value: "Germany, EU, USA" },
   { label: "Key Products Manufactured", value: "Apparel, Footwear, Accessories" },
   { label: "Current Sustainability Initiatives", value: "5 Major Programs" },
-]
+];
 
 export const StatsSlider: React.FC = () => {
   return (
@@ -43,6 +43,5 @@ export const StatsSlider: React.FC = () => {
         </SwiperSlide>
       ))}
     </Swiper>
-  )
-}
-
+  );
+};
