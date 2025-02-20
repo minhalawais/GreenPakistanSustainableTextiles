@@ -97,3 +97,21 @@
 .animate-scroll {
   animation: scroll 30s linear infinite;
 }
+:root {
+  --color-background-primary: #d8d0bd;
+  --color-background-secondary: #f8f9fa;
+  --color-divider: #e4e7eb;
+  --color-text-heading: #1d3f8a;
+  --color-text-body: #14274e;
+  --color-text-muted: #4a5568;
+  --color-button-primary: #30b9ad;
+  --color-button-accent: #c5a46d;
+  --color-border-soft: #e4e7eb;
+  --color-border-strong: #4a5568;
+}
+
+body {
+  background-color: var(--color-background-primary);
+  color: var(--color-text-body);
+}
+
