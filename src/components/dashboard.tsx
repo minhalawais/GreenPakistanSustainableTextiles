@@ -1,160 +1,239 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-  LineChart,
-  Line,
-  CartesianGrid,
-} from "recharts";
-import { Calendar, CheckCircle, FileText, Users } from "lucide-react";
+import React, { useState, useEffect, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Bar, BarChart, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { EventCalendar } from "@/components/calendar-view";
+import { NewsSection } from "@/components/news-section";
+import { CertifiedStaff } from "@/components/certified-staff";
+import { SustainabilityMeasures } from "@/components/sustainability-measures";
+import { Header } from "@/components/header"
 
-const Dashboard = () => {
-  // Dummy data for KPIs
-  const [kpiData] = useState({
-    companiesAdvised: [
-      { quarter: "Q1 2023", advised: 20 },
-      { quarter: "Q2 2023", advised: 35 },
-      { quarter: "Q3 2023", advised: 50 },
-      { quarter: "Q4 2023", advised: 65 },
-    ],
-    staffCertified: [
-      { name: "Certified", value: 75 },
-      { name: "Non-Certified", value: 25 },
-    ],
-    sustainabilityReports: [
-      { month: "Jan", reports: 10 },
-      { month: "Feb", reports: 15 },
-      { month: "Mar", reports: 20 },
-      { month: "Apr", reports: 25 },
-      { month: "May", reports: 30 },
-      { month: "Jun", reports: 35 },
-    ],
-    events: [
-      { date: "2023-10-15", title: "LkSG Compliance Workshop" },
-      { date: "2023-11-05", title: "EU Green Deal Seminar" },
-      { date: "2023-12-10", title: "Sustainability Reporting Training" },
-    ],
-  });
+// Theme configuration
+const theme = {
+  colors: {
+    primary: "#30B9AD",
+    secondary: "#1D3F8A",
+    accent: "#C5A46D",
+    dark: "#125643",
+    background: "bg-gray-50",
+    text: {
+      primary: "text-gray-900",
+      secondary: "text-gray-500",
+      accent: "text-gray-600"
+    }
+  },
+  spacing: {
+    container: "p-8",
+    section: "mb-8",
+    grid: "gap-6"
+  }
+};
 
-  const COLORS = ["#30B9AD", "#C5A46D"];
+// Stats data component with TypeScript-like prop types
+const StatCard = ({ label, value, color }) => (
+  <Card className="bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 h-32">
+    <CardContent className="p-6 flex flex-col justify-between h-full">
+      <h3 className="text-sm font-medium text-gray-500">{label}</h3>
+      <p className="text-xl font-bold" style={{ color }}>
+        {value}
+      </p>
+    </CardContent>
+  </Card>
+);
 
-  return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <h1 className="text-3xl font-bold text-gray-800 mb-8">Association Dashboard</h1>
+const SlideIndicator = ({ active, onClick }) => (
+  <button
+    onClick={onClick}
+    className={`h-2 rounded-full transition-all duration-300 ${
+      active ? "bg-primary w-4" : "bg-gray-300 hover:bg-gray-400 w-2"
+    }`}
+  />
+);
 
-      {/* Key Achievements Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold text-gray-700">Member Companies</h2>
-          <p className="text-3xl font-bold text-gray-900">300+</p>
-          <p className="text-sm text-gray-500">Aligned with sustainability policies</p>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold text-gray-700">Certified Staff</h2>
-          <p className="text-3xl font-bold text-gray-900">75%</p>
-          <p className="text-sm text-gray-500">Trained in sustainability</p>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold text-gray-700">Sustainability Reports</h2>
-          <p className="text-3xl font-bold text-gray-900">120</p>
-          <p className="text-sm text-gray-500">Prepared by member companies</p>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold text-gray-700">Events Held</h2>
-          <p className="text-3xl font-bold text-gray-900">15+</p>
-          <p className="text-sm text-gray-500">Knowledge-sharing events</p>
-        </div>
-      </div>
-
-      {/* KPI Progress Tracking Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-        {/* Companies Advised on Compliance */}
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4">
-            Companies Advised on LkSG/EU Green Deal Compliance
-          </h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={kpiData.companiesAdvised}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="quarter" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="advised" fill="#30B9AD" />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* Staff Certified in Sustainability */}
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4">
-            Staff Certified in Sustainability
-          </h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={kpiData.staffCertified}
-                cx="50%"
-                cy="50%"
-                labelLine={false}
-                outerRadius={80}
-                fill="#8884d8"
-                dataKey="value"
-              >
-                {kpiData.staffCertified.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      {/* Sustainability Reports Growth */}
-      <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">
-          Growth in Sustainability Reports
-        </h2>
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={kpiData.sustainabilityReports}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="reports" stroke="#30B9AD" strokeWidth={2} />
-          </LineChart>
+const ComplianceChart = ({ data }) => (
+  <Card className={theme.spacing.section}>
+    <CardHeader>
+      <CardTitle className="text-xl font-semibold text-gray-800">Companies Advised on LkSG/EU Green Deal</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <div className="h-24">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={[data]} layout="vertical">
+            <XAxis type="number" domain={[0, 100]} />
+            <YAxis type="category" hide />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "white",
+                border: "1px solid #e2e8f0",
+                borderRadius: "0.5rem",
+                padding: "0.5rem"
+              }}
+            />
+            <Bar dataKey="target" fill="#E2E8F0" radius={[0, 4, 4, 0]} name="Target" />
+            <Bar dataKey="advised" fill={theme.colors.primary} radius={[0, 4, 4, 0]} name="Advised" />
+          </BarChart>
         </ResponsiveContainer>
       </div>
+    </CardContent>
+  </Card>
+);
 
-      {/* Knowledge-Sharing Events */}
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">
-          Knowledge-Sharing Events
-        </h2>
-        <div className="space-y-4">
-          {kpiData.events.map((event, index) => (
-            <div key={index} className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
-              <Calendar className="w-6 h-6 text-gray-600" />
-              <div>
-                <p className="text-sm text-gray-500">{event.date}</p>
-                <p className="font-medium text-gray-800">{event.title}</p>
-              </div>
-            </div>
-          ))}
+const Dashboard = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  
+  // Memoized data
+  const stats = useMemo(() => [
+    {
+      label: "Association Name",
+      value: "PSGMEA",
+      color: theme.colors.primary,
+    },
+    {
+      label: "Total Member Companies",
+      value: "550+",
+      color: theme.colors.secondary,
+    },
+    {
+      label: "Total Factories Represented",
+      value: "1,000+",
+      color: theme.colors.accent,
+    },
+    {
+      label: "Total Employees in Member Companies",
+      value: "550+",
+      color: theme.colors.dark,
+    },
+    {
+      label: "Annual Revenue of Member Companies",
+      value: "$58 Million",
+      color: theme.colors.primary,
+    },
+    {
+      label: "Major Export Destinations",
+      value: "Germany, EU, USA",
+      color: theme.colors.secondary,
+    },
+    {
+      label: "Key Products Manufactured",
+      value: "Apparel, Footwear, Accessories",
+      color: theme.colors.accent,
+    },
+    {
+      label: "Current Sustainability Initiatives",
+      value: "5 Major Programs",
+      color: theme.colors.dark,
+    },
+  ], []);
+
+  const totalSlides = Math.ceil(stats.length / 4);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % totalSlides);
+    }, 3000);
+
+    return () => clearInterval(timer);
+  }, [totalSlides]);
+
+  const currentStats = stats.slice(currentSlide * 4, currentSlide * 4 + 4);
+
+  return (
+    <div className={`min-h-screen bg-white flex flex-col ${theme.colors.background} px-8`}>
+            <Header />
+
+     <div className="text-center space-y-2 mt-8">
+        <h1 className="text-3xl font-bold text-gray-900">
+          PSGMEA Association Dashboard
+        </h1>
+        <div className="h-1 w-24 bg-blue-600 mx-auto rounded-full"></div>
+      </div>
+
+      {/* Stats Carousel */}
+      <div className="mb-12 mt-8">
+        <div className="relative">
+          <div className="overflow-hidden rounded-xl">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentSlide}
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -100 }}
+                transition={{ duration: 0.5 }}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
+              >
+                {currentStats.map((stat, i) => (
+                  <StatCard key={i} {...stat} />
+                ))}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          <div className="flex justify-center mt-4 gap-2">
+            {Array.from({ length: totalSlides }).map((_, i) => (
+              <SlideIndicator
+                key={i}
+                active={i === currentSlide}
+                onClick={() => setCurrentSlide(i)}
+              />
+            ))}
+          </div>
         </div>
+      </div>
+
+      {/* Charts and Metrics */}
+      <ComplianceChart data={{ advised: 25, target: 15 }} />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <CertifiedStaff />
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-xl font-semibold text-gray-800">Gender-Sensitive Measures Impact</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart
+                data={[
+                  { year: 2022, before: 30, after: 45 },
+                  { year: 2023, before: 45, after: 65 },
+                  { year: 2024, before: 65, after: 85 },
+                ]}
+              >
+                <XAxis dataKey="year" />
+                <YAxis />
+                <Tooltip />
+                <Line
+                  type="monotone"
+                  dataKey="before"
+                  stroke={theme.colors.secondary}
+                  strokeWidth={2}
+                  name="Before Implementation"
+                />
+                <Line
+                  type="monotone"
+                  dataKey="after"
+                  stroke={theme.colors.primary}
+                  strokeWidth={2}
+                  name="After Implementation"
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Additional Sections */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold mb-6 text-gray-900">
+          Innovative Sustainability Measures
+        </h2>
+        <SustainabilityMeasures />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <EventCalendar />
+        <NewsSection />
       </div>
     </div>
   );
