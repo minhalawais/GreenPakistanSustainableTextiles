@@ -7,11 +7,8 @@ import { NewsSection } from "@/components/news-section"
 import { CertifiedStaff } from "@/components/certified-staff"
 import { SustainabilityMeasures } from "@/components/sustainability-measures"
 import { Header } from "@/components/header"
-import { ComplianceChart } from "@/components/compliance-chart"
 import { GenderImpactChart } from "@/components/gender-impact-chart"
-import { SustainabilityReports } from "@/components/sustainability-reports"
 import { FrameworkImplementation } from "@/components/framework-implementation"
-import { EventAttendance } from "@/components/event-attendance"
 import { InnovativeMeasures } from "@/components/innovative-measures"
 import { KPITimeline } from "@/components/kpi-timeline"
 
@@ -51,7 +48,7 @@ const theme = {
 
 // Enhanced StatCard with gradient backgrounds and improved styling
 const StatCard = ({ label, value, color, index, isMultiline = false }) => {
-  // Create an array of gradient pairs for different cards
+  // Create an array of gradient pairs for different cards (unchanged)
   const gradients = [
     ["from-blue-500 to-indigo-600", "#3B82F6"],
     ["from-purple-500 to-pink-600", "#8B5CF6"],
@@ -63,9 +60,16 @@ const StatCard = ({ label, value, color, index, isMultiline = false }) => {
     ["from-slate-600 to-slate-800", "#1E293B"],
   ]
 
-  // Use modulo to cycle through gradients
+  // Use modulo to cycle through gradients (unchanged)
   const gradientIndex = index % gradients.length
   const [gradientClass, accentColor] = gradients[gradientIndex]
+  
+  // Check if this is a country export card
+  const isCountryExport = label.includes("Export Volume to");
+  const country = isCountryExport ? label.replace("Export Volume to ", "") : "";
+  
+  // Check if this is one of our highlighted countries
+  const isHighlightedCountry = ["Germany", "France", "Italy"].includes(country);
 
   return (
     <motion.div
@@ -76,7 +80,20 @@ const StatCard = ({ label, value, color, index, isMultiline = false }) => {
       <div className="absolute inset-0 opacity-10 bg-white mix-blend-overlay" />
       <div className="relative z-10 h-full p-4 flex flex-col justify-between">
         <div>
-          <h3 className="text-xs font-medium uppercase tracking-wider mb-1 text-white/90">{label}</h3>
+          {isHighlightedCountry ? (
+            // Professional styling for highlighted countries
+            <h3 className="text-xs font-medium uppercase tracking-wider mb-1 text-white/90">
+              Export Volume to{" "}
+              <span className="relative inline-block">
+                <span className="font-bold text-white tracking-wide bg-white/20 px-2 py-0.5 rounded-sm">
+                  {country}
+                </span>
+              </span>
+            </h3>
+          ) : (
+            // Normal label for other cards
+            <h3 className="text-xs font-medium uppercase tracking-wider mb-1 text-white/90">{label}</h3>
+          )}
           <div className="w-12 h-1 rounded-full bg-white/70"></div>
         </div>
         <div className="flex flex-col mt-2">
@@ -89,7 +106,14 @@ const StatCard = ({ label, value, color, index, isMultiline = false }) => {
               )}
             </ul>
           ) : (
-            <p className="text-2xl font-bold text-white">{value}</p>
+            // Professional value styling for highlighted countries
+            isHighlightedCountry ? (
+              <p className="text-2xl font-bold text-white tracking-tight">
+                {value}
+              </p>
+            ) : (
+              <p className="text-2xl font-bold text-white">{value}</p>
+            )
           )}
           <motion.div
             initial={{ width: 0 }}
@@ -99,12 +123,16 @@ const StatCard = ({ label, value, color, index, isMultiline = false }) => {
           >
             <motion.div
               initial={{ width: 0 }}
-              animate={{ width: "70%" }}
+              animate={{ width: isHighlightedCountry ? "75%" : "70%" }}
               transition={{ delay: 0.5, duration: 1.5 }}
               className="h-full rounded-full bg-white/80"
             />
           </motion.div>
         </div>
+        
+        {isHighlightedCountry && (
+          <div className="absolute top-2 right-2 h-2 w-2 rounded-full bg-white/80" />
+        )}
       </div>
     </motion.div>
   )
@@ -184,7 +212,7 @@ const AssociationLogo = () => (
     transition={{ duration: 0.5 }}
     className="flex items-center justify-center mb-2"
   >
-    <img src="images/psgmea.jpg" alt="Logo" width="48" height="48" className="mr-3 modern-logo" />
+    <img src="images/psgmea.jpg" alt="Logo" width="60" height="60" className="mr-3 modern-logo" />
 
     <style jsx>{`
       .modern-logo {
@@ -198,14 +226,6 @@ const AssociationLogo = () => (
       }
     `}</style>
     <div className="flex flex-col items-start">
-      <motion.span
-        className="text-xs font-semibold tracking-widest text-gray-500 uppercase"
-        initial={{ opacity: 0, x: -5 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.3, duration: 0.5 }}
-      >
-        Pakistan
-      </motion.span>
       <motion.h1
         className="text-2xl font-bold bg-gradient-to-r from-blue-600 via-purple-500 to-indigo-600 bg-clip-text text-transparent"
         initial={{ opacity: 0, x: -5 }}
@@ -215,12 +235,21 @@ const AssociationLogo = () => (
         PSGMEA
       </motion.h1>
       <motion.span
-        className="text-xs font-medium text-gray-500"
+        className="text-xs font-semibold tracking-widest text-gray-500 uppercase"
+        initial={{ opacity: 0, x: -5 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.3, duration: 0.5 }}
+      >
+        Pakistan Sports Goods
+      </motion.span>
+
+      <motion.span
+        className="text-xs font-semibold tracking-widest text-gray-500 uppercase"
         initial={{ opacity: 0, x: -5 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.7, duration: 0.5 }}
       >
-        Sports Goods Manufacturers & Exporters
+        Manufacturers & Exporters
       </motion.span>
     </div>
   </motion.div>
@@ -294,86 +323,102 @@ const Dashboard = () => {
         color: theme.colors.primary,
       },
       {
-        label: "Total Factories Represented",
-        value: "1,000+",
+        label: "Total Registered Employees",
+        value: "82,500+",
         color: theme.colors.accent,
       },
       {
-        label: "Total Employees in Member Companies",
-        value: "550+",
+        label: "Total Export Volume",
+        value: "$58 Million",
         color: theme.colors.success,
       },
       {
-        label: "Annual Revenue of Member Companies",
-        value: "$58 Million",
+        label: "Export Volume to Germany",
+        value: "$1.52 Billion",
         color: theme.colors.info,
       },
       {
-        label: "Major Export Destinations",
-        value: "Germany, EU, USA",
+        label: "Export Volume to France",
+        value: "$484.79 Million",
         color: theme.colors.warning,
       },
       {
-        label: "Current Sustainability Initiatives",
-        value: "5 Major Programs",
-        color: theme.colors.dark,
+        label: "Export Volume to Italy",
+        value: "$1.15 Billion",
+        color: theme.colors.danger,
       },
       {
-        label: "Key Products Manufactured",
+        label: "Key Products Manufactured (Part 1)",
         value: [
           "Cricket gear (bats, balls, pads, gloves)",
           "Hockey sticks and accessories",
+        ],
+        color: theme.colors.dark,
+        isMultiline: true,
+      },
+      {
+        label: "Key Products Manufactured (Part 2)",
+        value: [
           "Fitness and Gym Wears",
           "Footballs (hand-stitched and machine-stitched)",
+        ],
+        color: theme.colors.dark,
+        isMultiline: true,
+      },
+      {
+        label: "Key Products Manufactured (Part 3)",
+        value: [
           "Sportswear and protective gear (Shoulder & Elbow Belt)",
         ],
-        color: theme.colors.danger,
+        color: theme.colors.dark,
         isMultiline: true,
       },
     ],
     [],
-  )
+  );
 
-  const totalSlides = Math.ceil(stats.length / 3)
+  // Calculate total slides based on the number of stats divided by 3
+  const totalSlides = Math.ceil(stats.length / 3);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % totalSlides)
-    }, 5000)
+      setCurrentSlide((prev) => (prev + 1) % totalSlides);
+    }, 7000); // Increased interval to 7 seconds for slower transitions
 
-    return () => clearInterval(timer)
-  }, [totalSlides])
+    return () => clearInterval(timer);
+  }, [totalSlides]);
 
-  const currentStats = stats.slice(currentSlide * 3, currentSlide * 3 + 3)
+  // Get the current 3 cards to display based on the current slide index
+  const currentStats = stats.slice(currentSlide * 3, currentSlide * 3 + 3);
 
   const goToNext = () => {
-    setCurrentSlide((prev) => (prev + 1) % totalSlides)
-  }
+    setCurrentSlide((prev) => (prev + 1) % totalSlides);
+  };
 
   const goToPrev = () => {
-    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides)
-  }
+    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
+  };
 
   // Progress indicator for auto-slide
-  const [progress, setProgress] = useState(0)
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const duration = 5000 // 5 seconds
-    const interval = 50 // Update every 50ms for smoothness
-    let timer
-    let elapsed = 0
+    const duration = 7000; // 7 seconds for slower transitions
+    const interval = 50; // Update every 50ms for smoothness
+    let timer;
+    let elapsed = 0;
 
     timer = setInterval(() => {
-      elapsed += interval
-      setProgress((elapsed / duration) * 100)
+      elapsed += interval;
+      setProgress((elapsed / duration) * 100);
 
       if (elapsed >= duration) {
-        elapsed = 0
+        elapsed = 0;
       }
-    }, interval)
+    }, interval);
 
-    return () => clearInterval(timer)
-  }, [currentSlide])
+    return () => clearInterval(timer);
+  }, [currentSlide]);
 
   return (
     <div className={`min-h-screen bg-white flex flex-col ${theme.colors.background} px-6`}>
@@ -410,20 +455,25 @@ const Dashboard = () => {
           {/* Stats cards container with subtle pattern background */}
           <div className="overflow-hidden rounded-xl p-1 bg-gradient-to-r from-gray-50 to-gray-100 shadow-inner">
             <div className="p-2">
-              <AnimatePresence mode="wait">
+              <AnimatePresence initial={false} mode="popLayout">
                 <motion.div
                   key={currentSlide}
                   initial={{ opacity: 0, x: 50 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -50 }}
                   transition={{
-                    duration: 0.4,
+                    duration: 0.6,
                     ease: "easeInOut",
                   }}
                   className="grid grid-cols-1 md:grid-cols-3 gap-4"
                 >
                   {currentStats.map((stat, i) => (
-                    <StatCard key={i} {...stat} index={i + currentSlide * 3} isMultiline={stat.isMultiline} />
+                    <StatCard
+                      key={`${currentSlide}-${i}`}
+                      {...stat}
+                      index={i + currentSlide}
+                      isMultiline={stat.isMultiline}
+                    />
                   ))}
                 </motion.div>
               </AnimatePresence>
@@ -433,7 +483,7 @@ const Dashboard = () => {
                 className="flex justify-center mt-4 gap-2"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
+                transition={{ delay: 4 }}
               >
                 {Array.from({ length: totalSlides }).map((_, i) => (
                   <SlideIndicator key={i} active={i === currentSlide} onClick={() => setCurrentSlide(i)} />
@@ -448,17 +498,6 @@ const Dashboard = () => {
       <div className="mb-6">
         <KPITimeline />
       </div>
-
-
-        <SustainabilityReports />
-        <FrameworkImplementation />
-
-        <GenderImpactChart />
-
-      <div className="mb-6">
-        <InnovativeMeasures />
-      </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         <EnhancedCertifiedStaffWrapper />
         <EnhancedEventCalendarWrapper />
@@ -466,16 +505,13 @@ const Dashboard = () => {
 
       {/* Additional Sections with Enhanced Styling */}
       <div className="mb-6">
-        <h2 className="text-xl font-bold mb-4 text-gray-900 flex items-center">
-          <div className="w-1 h-6 bg-gradient-to-b from-amber-500 to-orange-600 rounded-full mr-2"></div>
-          Innovative Sustainability Measures
-        </h2>
         <EnhancedSustainabilityWrapper />
       </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <EnhancedNewsSectionWrapper />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <GenderImpactChart />
+        <InnovativeMeasures />
       </div>
+      <FrameworkImplementation />
     </div>
   )
 }
