@@ -4,7 +4,15 @@ import { Check, X, Award, Shield } from "lucide-react"
 import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
-const staffData = [
+type StaffMember = {
+  name: string;
+  factory: string;
+  certified: boolean;
+  date: string | null;
+  specialty: string;
+};
+
+const staffData: StaffMember[] = [
   {
     name: "MR. Mohsin Masood",
     factory: "PSGMEA Sialkot",
@@ -85,8 +93,10 @@ export function CertifiedStaff() {
                   </div>
                   <div className="flex items-center gap-2">
                     <p className="text-xs text-gray-500">{staff.specialty}</p>
-                    {staff.certified && (
-                      <span className="text-xs text-gray-500">{new Date(staff.date).toLocaleDateString()}</span>
+                    {staff.certified && staff.date && (
+                      <span className="text-xs text-gray-500">
+                        {new Date(staff.date).toLocaleDateString()}
+                      </span>
                     )}
                   </div>
                 </div>
@@ -113,4 +123,3 @@ export function CertifiedStaff() {
 }
 
 export default CertifiedStaff
-
