@@ -85,9 +85,7 @@ export function ProjectOutcomes() {
               We&apos;re accelerating Pakistan&apos;s transition to sustainable business practices. Together, we&apos;re creating
               pathways for global market access and environmental compliance.
             </p>
-            <button className="bg-[#125643] text-white px-6 py-3 rounded-lg font-medium hover:bg-[#125643] transition-all duration-300 shadow-md hover:shadow-lg hover:translate-y-[-1px]">
-              View Our Priorities
-            </button>
+
             <div className="mt-6 px-4 py-3 bg-[#D8D0BD]/20 rounded-lg border-l-4 border-[#C5A46D] text-[#4A5568] text-sm italic">
               Projects aligned with UN Sustainable Development Goals
             </div>

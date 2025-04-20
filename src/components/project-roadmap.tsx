@@ -74,9 +74,9 @@ export default function ProjectRoadmap() {
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#1D3F8A] to-[#4f46e5] bg-clip-text text-transparent mb-2">
-            Project Roadmap
+            Project Roadmap 2025
           </h2>
-          <p className="text-gray-600 text-base">German Importers Implementation Plan</p>
+          <p className="text-gray-600 text-base">VFI German Importers Implementation Plan</p>
         </motion.div>
 
         <div className="relative">

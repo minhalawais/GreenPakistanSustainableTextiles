@@ -1,25 +1,44 @@
 "use client"
-import { useState } from "react";
-import Image from "next/image";
-import { Building2, Leaf, TrendingUp, LogIn, X } from "lucide-react";
+import { useState } from "react"
+import type React from "react"
+
+import Image from "next/image"
+import { Building2, Leaf, TrendingUp, LogIn, X } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 export function HeroSection() {
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
+  const router = useRouter()
 
-  const openLoginModal = () => setIsLoginModalOpen(true);
-  const closeLoginModal = () => setIsLoginModalOpen(false);
+  const openLoginModal = () => setIsLoginModalOpen(true)
+  const closeLoginModal = () => {
+    setIsLoginModalOpen(false)
+    setError("")
+    setUsername("")
+    setPassword("")
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (username === "psgmea" && password === "psgmea1122") {
+      // Successful login
+      setError("")
+      router.push("/dashboard")
+    } else {
+      // Failed login
+      setError("Invalid username or password")
+    }
+  }
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image with Stronger Overlay */}
       <div className="absolute inset-0 z-0">
-        <Image
-          src="/green_pakistan.jpeg"
-          alt="Aerial view of green forest"
-          fill
-          className="object-cover"
-          priority
-        />
+        <Image src="/green_pakistan.jpeg" alt="Aerial view of green forest" fill className="object-cover" priority />
         <div className="absolute inset-0 bg-black/60" />
       </div>
 
@@ -50,35 +69,38 @@ export function HeroSection() {
 
             {/* Modal Content */}
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-white text-center">
-                Association Login
-              </h2>
-              <form className="space-y-4">
+              <h2 className="text-2xl font-bold text-white text-center">Association Login</h2>
+
+              {error && (
+                <div className="bg-red-500/20 border border-red-400/30 text-white px-4 py-2 rounded-lg text-sm">
+                  {error}
+                </div>
+              )}
+
+              <form className="space-y-4" onSubmit={handleSubmit}>
                 <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-emerald-100"
-                  >
-                    Email
+                  <label htmlFor="username" className="block text-sm font-medium text-emerald-100">
+                    Username
                   </label>
                   <input
-                    type="email"
-                    id="email"
-                    className="mt-1 block w-full px-4 py-2 bg-emerald-500/20 border border-emerald-400/30 rounded-lg text-white placeholder-emerald-200 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400"
-                    placeholder="Enter your email"
+                    type="text"
+                    id="username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    className="mt-1 block w-full px-4 py-2 bg-emerald-500/20 border border-emerald-400/30 rounded-lg text-white placeholder-emerald-200/70 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400"
+                    placeholder="Enter your username"
                   />
                 </div>
                 <div>
-                  <label
-                    htmlFor="password"
-                    className="block text-sm font-medium text-emerald-100"
-                  >
+                  <label htmlFor="password" className="block text-sm font-medium text-emerald-100">
                     Password
                   </label>
                   <input
                     type="password"
                     id="password"
-                    className="mt-1 block w-full px-4 py-2 bg-emerald-500/20 border border-emerald-400/30 rounded-lg text-white placeholder-emerald-200 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="mt-1 block w-full px-4 py-2 bg-emerald-500/20 border border-emerald-400/30 rounded-lg text-white placeholder-emerald-200/70 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400"
                     placeholder="Enter your password"
                   />
                 </div>
@@ -110,17 +132,8 @@ export function HeroSection() {
             />
           </h1>
           <p className="text-xl md:text-2xl text-emerald-100 font-medium">
-            Pakistan&apos;s Gateway to 300+ German Brands &amp; Companies
+            Preparing Associations For EU Green Deal, EUCSDDD & LKSG-German Due Diligence Act
           </p>
-
-          <p className="text-base md:text-lg text-gray-100 leading-relaxed max-w-2xl mx-auto">
-            By aligning with global sustainability and compliance standards (LkSG
-            &amp; EU Green Deal), this project is not just about meeting
-            regulations—it&apos;s about unlocking new export markets, increasing
-            trade potential, and building long-term partnerships with European
-            buyers.
-          </p>
-
         </div>
 
         {/* Enhanced Feature Buttons */}
@@ -154,5 +167,5 @@ export function HeroSection() {
         </div>
       </div>
     </div>
-  );
+  )
 }

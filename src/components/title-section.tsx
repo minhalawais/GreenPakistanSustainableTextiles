@@ -7,7 +7,7 @@ export function TitleSection() {
         GREEN PAKISTAN PROJECT
         <Image className="border" src="/images/pakistan_logo.jpg?height=32&width=48" alt="Pakistan Flag" width={48} height={32} />
       </h1>
-      <p className="text-lg text-gray-600">Cooperation between German Importers and Pakistani Producers</p>
+      <p className="text-lg text-gray-600">Cooperation between VFI German Importers and Pakistani Producers</p>
     </div>
   );
 }

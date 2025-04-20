@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Green Pakistan Project",
-  description: "Cooperation between German Importers and Pakistani Producers",
+  description: "Cooperation between VFI German Importers and Pakistani Producers",
   icons: {
     icon: "/sequa_logo.png",
     shortcut: "/sequa_logo.png",
