@@ -29,8 +29,12 @@ const products = [
     description: "High-quality sports gear and accessories for various activities",
   },
 ]
-
-const FeatureCard = ({ icon: Icon, text, description }) => (
+type ProductItem = {
+  icon: React.ComponentType<{ className?: string }>;
+  text: string;
+  description: string;
+};
+const FeatureCard = ({ icon: Icon, text, description }: ProductItem) => (
   <Card className="group hover:shadow-lg transition-all duration-300 border-none bg-white/5 backdrop-blur-sm">
     <CardContent className="p-4">
       <div className="flex items-start gap-3">
