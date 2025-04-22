@@ -26,7 +26,7 @@ const advisoryPanel: Advisor[] = [
   },
   {
     name: "Michael Arretz",
-    role: "Managing Director, VFI VFI German Importers",
+    role: "Managing Director, VFI German Importers",
     image: "/images/michael_arretz.jpg",
   },
   {

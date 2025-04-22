@@ -20,7 +20,7 @@ const advisoryPanel: Advisor[] = [
   },
   {
     name: "Michael Arretz",
-    role: "Managing Director, VFI VFI German Importers",
+    role: "Managing Director, VFI German Importers",
     image: "/images/michael_arretz.jpg",
   },
   {
@@ -29,9 +29,9 @@ const advisoryPanel: Advisor[] = [
     image: "/images/sarim_mehmood.jpg",
   },
   {
-    name: "Jacob Arretz",
-    role: "Project Coordinator, VFI VFI German Importers",
-    image: "/images/jacob_arretz.jpg",
+    name: "Jakob Arretz",
+    role: "Project Coordinator, VFI German Importers",
+    image: "/images/jakob_arretz.png",
   },
   {
     name: "Miqdam Junaid",

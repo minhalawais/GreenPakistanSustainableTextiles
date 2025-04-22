@@ -14,9 +14,21 @@ interface Event {
 
 const events: Event[] = [
   {
-    title: "Dr.Michael's visit Sialkot-2 Days (ASR-Advanced Sustainability Reporting Workshop)",
-    date: "2025-03-25",
+    title: "Dr. Michael's visit Sialkot-2 Days (ASR-Advanced Sustainability Reporting Workshop)",
+    date: "2025-04-25",
     location: "Sialkot City",
+    type: "upcoming",
+  },
+  {
+    title: "PSGMEA Online Session: 40 minutes (Member Factories Submitted Applications Review)",
+    date: "2025-04-11",
+    location: "Online",
+    type: "past",
+  },
+  {
+    title: "Joint Session Online: 1.5 hour (Update on Application, KPI’s and Discussion on Baseline Assessment form & Declaration Form)",
+    date: "2025-04-09",
+    location: "Online",
     type: "past",
   },
   {
@@ -38,11 +50,18 @@ const events: Event[] = [
     type: "past",
   },
   {
-    title: "Two Days Workshop at PRGMEA Lahore",
-    date: "2025-02-22",
+    title: "Day Workshop at PSGMEA Sialkot",
+    date: "2025-02-25",
     location: "PSGMEA, Sialkot Office",
     type: "past",
   },
+  {
+    title: "Day Workshop at PSGMEA Sialkot",
+    date: "2025-02-24",
+    location: "PSGMEA, Sialkot Office",
+    type: "past",
+  },
+
   {
     title: "MOU SIGNING CEREMONY & JOINT WORKSHOP",
     date: "2025-02-20",

@@ -178,11 +178,18 @@ export function MemberCompanies() {
 
     const onTouchMove = (e: TouchEvent) => {
       if (!startX) return
+      
+      // Check if we're touching a link
+      const target = e.target as HTMLElement
+      if (target.closest('a')) {
+        return // Allow link clicks
+      }
+      
       const x = e.touches[0].pageX - slider.offsetLeft
-      const walk = (x - startX) * 2 // Scroll speed multiplier
+      const walk = (x - startX) * 2
       slider.scrollLeft = scrollLeft - walk
+      e.preventDefault()
     }
-
     slider.addEventListener("touchstart", onTouchStart)
     slider.addEventListener("touchmove", onTouchMove)
 
@@ -234,8 +241,12 @@ export function MemberCompanies() {
           {/* Slider container */}
           <div
             ref={sliderRef}
-            className="flex overflow-x-auto  gap-6 scrollbar-hide pb-8 -mx-4"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            className="flex overflow-x-auto gap-6 scrollbar-hide pb-8 -mx-4"
+            style={{ 
+              scrollbarWidth: "none", 
+              msOverflowStyle: "none",
+              touchAction: 'pan-y'
+            }}
           >
             {companies.map((company, index) => {
               const colors = getColorForIndex(index)
@@ -253,9 +264,6 @@ export function MemberCompanies() {
                   <Card
                     className={`h-full hover:shadow-xl transition-all duration-300 ${colors.border} overflow-hidden bg-white rounded-xl group`}
                   >
-                    <div
-                      className={`absolute inset-0 bg-gradient-to-br ${colors.bgHover} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
-                    ></div>
 
                     <CardContent className="p-6">
                       <div className="mb-4">

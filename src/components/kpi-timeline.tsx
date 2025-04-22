@@ -16,7 +16,7 @@ const kpis: KPI[] = [
   {
     name: "Companies Advised on LkSG/EU Green Deal",
     target: "350-400",
-    current: 25,
+    current: 32,
     color: "from-blue-500 to-indigo-600",
     unit: "companies",
   },

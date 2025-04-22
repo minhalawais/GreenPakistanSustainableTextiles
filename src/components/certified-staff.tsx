@@ -42,7 +42,7 @@ const staffData: StaffMember[] = [
     specialty: "Sustainability",
   },
   {
-    name: "MR. Wajid",
+    name: "Mr. Shahzaib Yousaf",
     factory: "Forward Sports",
     certified: true,
     date: "2024-01-20",
